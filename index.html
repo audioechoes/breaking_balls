@@ -130,7 +130,7 @@
         timer = 60;
         showStartScreen = false;
 
-        // Paddle placement
+        // ✅ FINAL FIX: Paddle above touch buttons on mobile
         const bottomSpace = isMobile() ? canvas.height * 0.15 : canvas.height * 0.05;
         const paddleHeight = canvas.height * 0.02;
 
@@ -141,7 +141,6 @@
           height: paddleHeight
         };
 
-        // Build bricks
         bricks = [];
         const spacingX = canvas.width / (brickText.length + 1.5);
         const brickY = canvas.height * 0.15;
@@ -184,40 +183,35 @@
           const vh = canvas.height / 100;
 
           ctx.textAlign = "center";
-          ctx.font = `${4 * vh}px monospace`;
+          ctx.font = ${4 * vh}px monospace;
           ctx.fillText("BREAKING BALLS", canvas.width / 2, 20 * vh);
 
-          ctx.font = `${2 * vh}px monospace`;
+          ctx.font = ${2 * vh}px monospace;
           ctx.fillText("LEFT / RIGHT to move", canvas.width / 2, 40 * vh);
           ctx.fillText("FIRE to shoot", canvas.width / 2, 47 * vh);
           ctx.fillText("BREAK THE TEXT", canvas.width / 2, 54 * vh);
           return;
         }
 
-        // Show timer
         ctx.textAlign = "left";
         ctx.font = "16px monospace";
-        ctx.fillText(`TIME: ${timer}`, 10, canvas.height * 0.05);
+        ctx.fillText(TIME: ${timer}, 10, canvas.height * 0.05);
 
-        // Draw paddle
         ctx.fillRect(paddle.x, paddle.y, paddle.width, paddle.height);
 
-        // Draw bullets (balls)
         bullets.forEach(b => {
           ctx.beginPath();
           ctx.arc(b.x, b.y, 4, 0, Math.PI * 2);
           ctx.fill();
         });
 
-        // Draw bricks
-        ctx.font = `${canvas.width / (brickText.length + 2)}px monospace`;
+        ctx.font = ${canvas.width / (brickText.length + 2)}px monospace;
         ctx.textBaseline = 'top';
         bricks.forEach(b => {
           ctx.fillStyle = b.damage === 1 ? "gray" : "black";
           ctx.fillText(b.char, b.x, b.y);
         });
 
-        // Particles
         particles.forEach((p, i) => {
           ctx.beginPath();
           ctx.moveTo(p.x, p.y);
@@ -228,7 +222,6 @@
           if (p.size <= 0) particles.splice(i, 1);
         });
 
-        // Game over / Game won overlay
         if (gameWon || gameOver) {
           ctx.fillStyle = "rgba(255,255,255,0.9)";
           ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -244,32 +237,10 @@
       function update() {
         if (!gameRunning) return;
 
-        // Update bullet positions
-        bullets.forEach((b, i) => {
-          b.x += b.vx;
-          b.y += b.vy;
+        bullets.forEach(b => b.y -= 5);
+        bullets = bullets.filter(b => b.y > 0);
 
-          // Check for collisions with walls and bounce
-          // left/right walls
-          if (b.x <= 4) {
-            b.x = 4;
-            b.vx *= -1;
-          }
-          if (b.x >= canvas.width - 4) {
-            b.x = canvas.width - 4;
-            b.vx *= -1;
-          }
-          // top/bottom walls
-          if (b.y <= 4) {
-            b.y = 4;
-            b.vy *= -1;
-          }
-          if (b.y >= canvas.height - 4) {
-            b.y = canvas.height - 4;
-            b.vy *= -1;
-          }
-
-          // Bullet collision with bricks
+        bullets.forEach((b, bi) => {
           bricks.forEach((brick, brI) => {
             let w = ctx.measureText(brick.char).width;
             if (
@@ -280,24 +251,21 @@
             ) {
               brick.damage++;
               if (brick.damage >= 2) {
-                // Create particles
-                for (let j = 0; j < 10; j++) {
+                for (let i = 0; i < 10; i++) {
                   particles.push({
                     x: brick.x + w / 2,
                     y: brick.y,
-                    angle: Math.PI * 2 * j / 10,
+                    angle: Math.PI * 2 * i / 10,
                     size: 12
                   });
                 }
                 bricks.splice(brI, 1);
               }
-              // Reverse bullet direction after hitting a brick
-              b.vy *= -1;
+              bullets.splice(bi, 1);
             }
           });
         });
 
-        // Check if all bricks are destroyed
         if (bricks.length === 0) endGame(true);
 
         draw();
@@ -311,12 +279,9 @@
 
       function shoot() {
         if (gameRunning) {
-          // Create bullet with velocity for bouncing
           bullets.push({
             x: paddle.x + paddle.width / 2,
-            y: paddle.y,
-            vx: 0,
-            vy: -5,   // upward initial velocity
+            y: paddle.y
           });
         }
       }
