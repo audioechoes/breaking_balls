@@ -113,6 +113,10 @@
       const startBtn = document.getElementById('start-btn');
       const touchControls = document.getElementById('touch-controls');
 
+      function isMobile() {
+        return window.innerWidth <= 768;
+      }
+
       function resizeCanvas() {
         canvas.width = canvas.offsetWidth;
         canvas.height = canvas.offsetHeight;
@@ -126,16 +130,13 @@
         timer = 60;
         showStartScreen = false;
 
-        const isPortrait = canvas.height > canvas.width;
-        const buttonHeight = canvas.height * 0.08;
-        const spacing = canvas.height * 0.03;
+        // ✅ FINAL FIX: Paddle above touch buttons on mobile
+        const bottomSpace = isMobile() ? canvas.height * 0.15 : canvas.height * 0.05;
         const paddleHeight = canvas.height * 0.02;
 
         paddle = {
           x: canvas.width / 2 - 75,
-          y: isPortrait
-            ? canvas.height - buttonHeight - spacing
-            : canvas.height - (canvas.height * 0.05),
+          y: canvas.height - bottomSpace,
           width: 150,
           height: paddleHeight
         };
@@ -160,7 +161,7 @@
 
         gameRunning = true;
         startBtn.classList.add('hidden');
-        touchControls.style.display = 'flex';
+        touchControls.style.display = isMobile() ? 'flex' : 'none';
         requestAnimationFrame(update);
       }
 
