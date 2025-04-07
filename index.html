@@ -171,6 +171,8 @@
         gameOver = !win;
         gameWon = win;
         touchControls.style.display = 'none';
+        // Update the button text to simply "RESTART" after game over.
+        startBtn.innerText = "RESTART";
         startBtn.classList.remove('hidden');
         draw();
       }
@@ -233,8 +235,9 @@
             canvas.width / 2,
             canvas.height / 2
           );
+          // The overlay description remains while the restart button (below the canvas) now says "RESTART".
           ctx.font = "1rem monospace";
-          ctx.fillText("PRESS START TO PLAY AGAIN (GO ON, I DARE YOU)", canvas.width / 2, canvas.height / 2 + 40);
+          ctx.fillText("", canvas.width / 2, canvas.height / 2 + 40);
         }
       }
 
