@@ -34,33 +34,31 @@
       display: block;
     }
 
-    #start-description {
+    .start-screen {
       position: absolute;
+      top: 50%;
       left: 50%;
-      top: 55vh;
-      transform: translateX(-50%);
+      transform: translate(-50%, -50%);
+      text-align: center;
+      z-index: 10;
+    }
+
+    #start-description {
       font-size: 1rem;
       line-height: 1.6;
-      color: black;
-      text-align: center;
-      white-space: pre-line;
-      z-index: 10;
-      pointer-events: none;
       margin-bottom: 20px;
+      color: black;
+      white-space: pre-line;
+      pointer-events: none;
     }
 
     #start-btn {
-      position: absolute;
-      left: 50%;
-      top: 70vh;
-      transform: translate(-50%, -50%);
       font-size: 1rem;
       padding: 10px 20px;
       background: transparent;
       border: 1px solid black;
       color: black;
       cursor: pointer;
-      z-index: 10;
     }
 
     #start-btn:hover {
@@ -68,7 +66,7 @@
       color: white;
     }
 
-    #start-btn.hidden {
+    .start-screen.hidden {
       display: none;
     }
 
@@ -105,8 +103,18 @@
 <body>
   <div class="game-wrapper">
     <canvas id="game-canvas"></canvas>
-    <div id="start-description"></div>
-    <button id="start-btn">START</button>
+
+    <!-- ✅ Start Screen Container -->
+    <div class="start-screen" id="start-screen">
+      <div id="start-description">
+        BREAK THE TEXT  
+        WHY? NO REASON.  
+        LEFT / RIGHT to move  
+        SPACE to shoot
+      </div>
+      <button id="start-btn">START</button>
+    </div>
+
     <div class="controls" id="touch-controls">
       <div class="btn" id="left-btn">LEFT</div>
       <div class="btn" id="fire-btn">FIRE</div>
@@ -127,7 +135,7 @@
 
       const brickText = "AUDIOECHOES";
       const startBtn = document.getElementById('start-btn');
-      const startDesc = document.getElementById('start-description');
+      const startScreen = document.getElementById('start-screen');
       const touchControls = document.getElementById('touch-controls');
 
       function isMobile() {
@@ -176,8 +184,7 @@
         }, 1000);
 
         gameRunning = true;
-        startBtn.classList.add('hidden');
-        startDesc.style.display = 'none';
+        startScreen.classList.add('hidden');
         touchControls.style.display = isMobile() ? 'flex' : 'none';
         requestAnimationFrame(update);
       }
@@ -188,10 +195,12 @@
         gameOver = !win;
         gameWon = win;
         touchControls.style.display = 'none';
-        startBtn.innerText = "RESTART";
-        startBtn.classList.remove('hidden');
-        startDesc.innerText = win ? "YOU WIN (ABSOLUTELY NOTHING)" : "GAME OVER (WHAT A WASTE OF TIME)";
-        startDesc.style.display = 'block';
+
+        const desc = document.getElementById('start-description');
+        desc.innerText = win
+          ? "YOU WIN (ABSOLUTELY NOTHING)"
+          : "GAME OVER (WHAT A WASTE OF TIME)";
+        startScreen.classList.remove('hidden');
         draw();
       }
 
@@ -199,15 +208,11 @@
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.fillStyle = "black";
 
-        if (showStartScreen) {
-          startDesc.innerText = 
-            "BREAK THE TEXT\nWHY? NO REASON.\nLEFT / RIGHT to move\nSPACE to shoot";
-          return;
-        }
-
         ctx.textAlign = "left";
         ctx.font = "16px 'IBM Plex Mono'";
         ctx.fillText(`TIME: ${timer}`, 10, canvas.height * 0.05);
+
+        if (showStartScreen) return;
 
         ctx.fillRect(paddle.x, paddle.y, paddle.width, paddle.height);
 
@@ -266,13 +271,8 @@
           b.x += b.vx;
           b.y += b.vy;
 
-          if (b.x <= 0 || b.x >= canvas.width) {
-            b.vx *= -1;
-          }
-
-          if (b.y <= 0) {
-            b.vy *= -1;
-          }
+          if (b.x <= 0 || b.x >= canvas.width) b.vx *= -1;
+          if (b.y <= 0) b.vy *= -1;
 
           bricks.forEach((brick, brI) => {
             let w = ctx.measureText(brick.char).width;
