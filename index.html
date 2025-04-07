@@ -90,7 +90,7 @@
 <body>
   <div class="game-wrapper">
     <canvas id="game-canvas"></canvas>
-    <button id="start-btn">INSERT COIN TO START (OR JUST CLICK THE f%%%KING SCREEN)</button>
+    <button id="start-btn">START</button>
     <div class="controls" id="touch-controls">
       <div class="btn" id="left-btn">LEFT</div>
       <div class="btn" id="fire-btn">FIRE</div>
@@ -109,7 +109,8 @@
       let gameOver = false, gameWon = false;
       let showStartScreen = true;
 
-      const brickText = "AUDIO ECHOES";
+      // Changed brick text to "AUDIOECHOES"
+      const brickText = "AUDIOECHOES";
       const startBtn = document.getElementById('start-btn');
       const touchControls = document.getElementById('touch-controls');
 
@@ -171,7 +172,7 @@
         gameOver = !win;
         gameWon = win;
         touchControls.style.display = 'none';
-        // Update the button text to simply "RESTART" after game over.
+        // After game over the button text becomes "RESTART"
         startBtn.innerText = "RESTART";
         startBtn.classList.remove('hidden');
         draw();
