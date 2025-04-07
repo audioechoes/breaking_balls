@@ -9,7 +9,7 @@
       margin: 0;
       padding: 0;
       height: 100%;
-      background: transparent; /* ✅ Transparent background */
+      background: transparent;
       font-family: monospace;
       color: black;
       overflow: hidden;
@@ -29,14 +29,14 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: transparent; /* ✅ Canvas transparency */
+      background: transparent;
       display: block;
     }
 
     #start-btn {
       position: absolute;
       left: 50%;
-      top: 50%;
+      top: 60%; /* ✅ pushed lower */
       transform: translate(-50%, -50%);
       font-family: monospace;
       font-size: 1rem;
@@ -46,6 +46,11 @@
       color: black;
       cursor: pointer;
       z-index: 10;
+    }
+
+    #start-btn:hover {
+      background: black;
+      color: white;
     }
 
     #start-btn.hidden {
@@ -86,6 +91,7 @@
   <div class="game-wrapper">
     <canvas id="game-canvas"></canvas>
     <button id="start-btn">START</button>
+
     <div class="controls" id="touch-controls">
       <div class="btn" id="left-btn">LEFT</div>
       <div class="btn" id="fire-btn">FIRE</div>
@@ -169,9 +175,9 @@
           ctx.font = "2rem monospace";
           ctx.fillText("BREAKING BALLS", canvas.width / 2, canvas.height / 3);
           ctx.font = "1rem monospace";
-          ctx.fillText("LEFT / RIGHT to move", canvas.width / 2, canvas.height / 2 - 20);
-          ctx.fillText("FIRE to shoot", canvas.width / 2, canvas.height / 2 + 10);
-          ctx.fillText("BREAK THE TEXT", canvas.width / 2, canvas.height / 2 + 40);
+          ctx.fillText("LEFT / RIGHT to move", canvas.width / 2, canvas.height / 2);
+          ctx.fillText("FIRE to shoot", canvas.width / 2, canvas.height / 2 + 30);
+          ctx.fillText("BREAK THE TEXT", canvas.width / 2, canvas.height / 2 + 60);
           return;
         }
 
@@ -269,10 +275,11 @@
       }
 
       startBtn.addEventListener('click', () => startGame());
-      window.addEventListener('keydown', e => {
-        if (e.key === 'ArrowLeft') movePaddle(-1);
-        else if (e.key === 'ArrowRight') movePaddle(1);
-        else if (e.key === ' ') shoot();
+
+      window.addEventListener("keydown", e => {
+        if (e.key === "ArrowLeft") movePaddle(-1);
+        else if (e.key === "ArrowRight") movePaddle(1);
+        else if (e.key === " ") shoot();
       });
 
       document.getElementById("left-btn").addEventListener("touchstart", () => movePaddle(-1));
