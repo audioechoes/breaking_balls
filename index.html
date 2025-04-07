@@ -36,7 +36,7 @@
     #start-btn {
       position: absolute;
       left: 50%;
-      top: 70vh; /* ✅ pushes start button away from text */
+      top: 70vh;
       transform: translate(-50%, -50%);
       font-family: monospace;
       font-size: 1rem;
@@ -126,19 +126,28 @@
         timer = 60;
         showStartScreen = false;
 
+        const isPortrait = canvas.height > canvas.width;
+        const buttonHeight = canvas.height * 0.08;
+        const spacing = canvas.height * 0.03;
+        const paddleHeight = canvas.height * 0.02;
+
         paddle = {
           x: canvas.width / 2 - 75,
-          y: canvas.height - 40,
+          y: isPortrait
+            ? canvas.height - buttonHeight - spacing
+            : canvas.height - (canvas.height * 0.05),
           width: 150,
-          height: 20
+          height: paddleHeight
         };
 
         bricks = [];
-        const spacing = canvas.width / (brickText.length + 1.5);
+        const spacingX = canvas.width / (brickText.length + 1.5);
+        const brickY = canvas.height * 0.15;
+
         for (let i = 0; i < brickText.length; i++) {
           bricks.push({
-            x: spacing * (i + 1),
-            y: 50,
+            x: spacingX * (i + 1),
+            y: brickY,
             char: brickText[i],
             damage: 0
           });
@@ -185,7 +194,7 @@
 
         ctx.textAlign = "left";
         ctx.font = "16px monospace";
-        ctx.fillText(`TIME: ${timer}`, 10, 20);
+        ctx.fillText(`TIME: ${timer}`, 10, canvas.height * 0.05);
 
         ctx.fillRect(paddle.x, paddle.y, paddle.width, paddle.height);
 
