@@ -37,7 +37,7 @@
     #start-description {
       position: absolute;
       left: 50%;
-      top: 60vh;
+      top: 55vh; /* moved up from 60vh */
       transform: translateX(-50%);
       font-size: 1rem;
       color: black;
@@ -198,11 +198,8 @@
         ctx.fillStyle = "black";
 
         if (showStartScreen) {
-          const vh = canvas.height / 100;
-
           startDesc.innerText = 
             "BREAK THE TEXT\nWHY? NO REASON.\nLEFT / RIGHT to move\nSPACE to shoot";
-
           return;
         }
 
