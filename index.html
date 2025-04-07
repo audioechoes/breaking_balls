@@ -46,7 +46,7 @@
     #start-description {
       font-size: 1rem;
       line-height: 1.6;
-      margin-bottom: 20px;
+      margin-bottom: 30px;
       color: black;
       white-space: pre-line;
       pointer-events: none;
@@ -104,7 +104,7 @@
   <div class="game-wrapper">
     <canvas id="game-canvas"></canvas>
 
-    <!-- ✅ Start Screen Container -->
+    <!-- Start + End screen container -->
     <div class="start-screen" id="start-screen">
       <div id="start-description">
         BREAK THE TEXT  
@@ -135,6 +135,7 @@
 
       const brickText = "AUDIOECHOES";
       const startBtn = document.getElementById('start-btn');
+      const startDesc = document.getElementById('start-description');
       const startScreen = document.getElementById('start-screen');
       const touchControls = document.getElementById('touch-controls');
 
@@ -196,10 +197,10 @@
         gameWon = win;
         touchControls.style.display = 'none';
 
-        const desc = document.getElementById('start-description');
-        desc.innerText = win
+        startDesc.innerText = win
           ? "YOU WIN (ABSOLUTELY NOTHING)"
           : "GAME OVER (WHAT A WASTE OF TIME)";
+        startBtn.innerText = "RESTART";
         startScreen.classList.remove('hidden');
         draw();
       }
@@ -238,19 +239,6 @@
           p.size--;
           if (p.size <= 0) particles.splice(i, 1);
         });
-
-        if (gameWon || gameOver) {
-          ctx.fillStyle = "rgba(255,255,255,0.9)";
-          ctx.fillRect(0, 0, canvas.width, canvas.height);
-          ctx.fillStyle = "black";
-          ctx.textAlign = "center";
-          ctx.font = "2rem 'IBM Plex Mono'";
-          ctx.fillText(
-            gameWon ? "YOU WIN (ABSOLUTELY NOTHING)" : "GAME OVER (WHAT A WASTE OF TIME)",
-            canvas.width / 2,
-            canvas.height / 2
-          );
-        }
       }
 
       function shoot() {
