@@ -9,7 +9,7 @@
     html, body {
       margin: 0;
       padding: 0;
-      height: 100%;
+      height: 100vh;
       background: transparent;
       font-family: 'IBM Plex Mono', monospace;
       color: black;
@@ -20,7 +20,7 @@
     .game-wrapper {
       position: relative;
       width: 100%;
-      height: 100%;
+      height: 100vh;
       background: transparent;
     }
 
@@ -40,11 +40,13 @@
       top: 55vh;
       transform: translateX(-50%);
       font-size: 1rem;
+      line-height: 1.6;
       color: black;
       text-align: center;
       white-space: pre-line;
       z-index: 10;
       pointer-events: none;
+      margin-bottom: 20px;
     }
 
     #start-btn {
@@ -116,6 +118,7 @@
     (function () {
       const canvas = document.getElementById("game-canvas");
       const ctx = canvas.getContext("2d");
+
       let paddle, bullets, bricks, particles = [];
       let timer = 60, timerInterval;
       let gameRunning = false;
@@ -250,7 +253,7 @@
           bullets.push({
             x: paddle.x + paddle.width / 2,
             y: paddle.y,
-            vx: (Math.random() - 0.5) * 2, // slight horizontal angle
+            vx: (Math.random() - 0.5) * 2,
             vy: -5
           });
         }
@@ -326,4 +329,5 @@
       draw();
     })();
   </script>
-</
+</body>
+</html>
