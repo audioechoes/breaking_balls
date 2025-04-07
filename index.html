@@ -34,19 +34,18 @@
       display: block;
     }
 
-#start-description {
-  position: absolute;
-  left: 50%;
-  top: 55vh;
-  transform: translateX(-50%);
-  font-size: 1rem;
-  color: black;
-  text-align: center;
-  white-space: pre-line;
-  z-index: 10;
-  pointer-events: none;
-}
-
+    #start-description {
+      position: absolute;
+      left: 50%;
+      top: 55vh;
+      transform: translateX(-50%);
+      font-size: 1rem;
+      color: black;
+      text-align: center;
+      white-space: pre-line;
+      z-index: 10;
+      pointer-events: none;
+    }
 
     #start-btn {
       position: absolute;
@@ -116,7 +115,7 @@
   <script>
     (function () {
       const canvas = document.getElementById("game-canvas");
-      const ctx = canvas.getContext("2d");
+      const ctx = canvas.getContext(" "2d");
 
       let paddle, bullets, bricks, particles = [];
       let timer = 60, timerInterval;
@@ -247,13 +246,32 @@
         }
       }
 
+      function shoot() {
+        if (gameRunning) {
+          bullets.push({
+            x: paddle.x + paddle.width / 2,
+            y: paddle.y,
+            vx: (Math.random() - 0.5) * 2, // slight horizontal angle
+            vy: -5
+          });
+        }
+      }
+
       function update() {
         if (!gameRunning) return;
 
-        bullets.forEach(b => b.y -= 5);
-        bullets = bullets.filter(b => b.y > 0);
+        bullets.forEach((b, i) => {
+          b.x += b.vx;
+          b.y += b.vy;
 
-        bullets.forEach((b, bi) => {
+          if (b.x <= 0 || b.x >= canvas.width) {
+            b.vx *= -1;
+          }
+
+          if (b.y <= 0) {
+            b.vy *= -1;
+          }
+
           bricks.forEach((brick, brI) => {
             let w = ctx.measureText(brick.char).width;
             if (
@@ -274,10 +292,12 @@
                 }
                 bricks.splice(brI, 1);
               }
-              bullets.splice(bi, 1);
+              bullets.splice(i, 1);
             }
           });
         });
+
+        bullets = bullets.filter(b => b.y <= canvas.height + 10);
 
         if (bricks.length === 0) endGame(true);
 
@@ -288,15 +308,6 @@
       function movePaddle(dir) {
         paddle.x += dir * 20;
         paddle.x = Math.max(0, Math.min(canvas.width - paddle.width, paddle.x));
-      }
-
-      function shoot() {
-        if (gameRunning) {
-          bullets.push({
-            x: paddle.x + paddle.width / 2,
-            y: paddle.y
-          });
-        }
       }
 
       startBtn.addEventListener('click', () => startGame());
@@ -316,5 +327,4 @@
       draw();
     })();
   </script>
-</body>
-</html>
+</
