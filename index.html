@@ -90,7 +90,7 @@
 <body>
   <div class="game-wrapper">
     <canvas id="game-canvas"></canvas>
-    <button id="start-btn">START</button>
+    <button id="start-btn">INSERT COIN TO START (OR JUST CLICK THE f%%%KING SCREEN)</button>
     <div class="controls" id="touch-controls">
       <div class="btn" id="left-btn">LEFT</div>
       <div class="btn" id="fire-btn">FIRE</div>
@@ -183,19 +183,19 @@
           const vh = canvas.height / 100;
 
           ctx.textAlign = "center";
-          ctx.font = ${4 * vh}px monospace;
+          ctx.font = `${4 * vh}px monospace`;
           ctx.fillText("BREAKING BALLS", canvas.width / 2, 20 * vh);
 
-          ctx.font = ${2 * vh}px monospace;
+          ctx.font = `${2 * vh}px monospace`;
           ctx.fillText("LEFT / RIGHT to move", canvas.width / 2, 40 * vh);
           ctx.fillText("FIRE to shoot", canvas.width / 2, 47 * vh);
-          ctx.fillText("BREAK THE TEXT", canvas.width / 2, 54 * vh);
+          ctx.fillText("BREAK THE TEXT. WHY? NO REASON.", canvas.width / 2, 54 * vh);
           return;
         }
 
         ctx.textAlign = "left";
         ctx.font = "16px monospace";
-        ctx.fillText(TIME: ${timer}, 10, canvas.height * 0.05);
+        ctx.fillText(`TIME: ${timer}`, 10, canvas.height * 0.05);
 
         ctx.fillRect(paddle.x, paddle.y, paddle.width, paddle.height);
 
@@ -205,7 +205,7 @@
           ctx.fill();
         });
 
-        ctx.font = ${canvas.width / (brickText.length + 2)}px monospace;
+        ctx.font = `${canvas.width / (brickText.length + 2)}px monospace`;
         ctx.textBaseline = 'top';
         bricks.forEach(b => {
           ctx.fillStyle = b.damage === 1 ? "gray" : "black";
@@ -228,9 +228,13 @@
           ctx.fillStyle = "black";
           ctx.textAlign = "center";
           ctx.font = "2rem monospace";
-          ctx.fillText(gameWon ? "YOU WIN" : "GAME OVER", canvas.width / 2, canvas.height / 2);
+          ctx.fillText(
+            gameWon ? "YOU WIN (ABSOLUTELY NOTHING)" : "GAME OVER (WHAT A WASTE OF TIME)",
+            canvas.width / 2,
+            canvas.height / 2
+          );
           ctx.font = "1rem monospace";
-          ctx.fillText("PRESS START TO PLAY AGAIN", canvas.width / 2, canvas.height / 2 + 40);
+          ctx.fillText("PRESS START TO PLAY AGAIN (GO ON, I DARE YOU)", canvas.width / 2, canvas.height / 2 + 40);
         }
       }
 
