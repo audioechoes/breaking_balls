@@ -36,7 +36,7 @@
     #start-btn {
       position: absolute;
       left: 50%;
-      top: 60%; /* ✅ pushed lower */
+      top: 70vh; /* ✅ pushes start button away from text */
       transform: translate(-50%, -50%);
       font-family: monospace;
       font-size: 1rem;
@@ -91,7 +91,6 @@
   <div class="game-wrapper">
     <canvas id="game-canvas"></canvas>
     <button id="start-btn">START</button>
-
     <div class="controls" id="touch-controls">
       <div class="btn" id="left-btn">LEFT</div>
       <div class="btn" id="fire-btn">FIRE</div>
@@ -171,13 +170,16 @@
         ctx.fillStyle = "black";
 
         if (showStartScreen) {
+          const vh = canvas.height / 100;
+
           ctx.textAlign = "center";
-          ctx.font = "2rem monospace";
-          ctx.fillText("BREAKING BALLS", canvas.width / 2, canvas.height / 3);
-          ctx.font = "1rem monospace";
-          ctx.fillText("LEFT / RIGHT to move", canvas.width / 2, canvas.height / 2);
-          ctx.fillText("FIRE to shoot", canvas.width / 2, canvas.height / 2 + 30);
-          ctx.fillText("BREAK THE TEXT", canvas.width / 2, canvas.height / 2 + 60);
+          ctx.font = `${4 * vh}px monospace`;
+          ctx.fillText("BREAKING BALLS", canvas.width / 2, 20 * vh);
+
+          ctx.font = `${2 * vh}px monospace`;
+          ctx.fillText("LEFT / RIGHT to move", canvas.width / 2, 40 * vh);
+          ctx.fillText("FIRE to shoot", canvas.width / 2, 47 * vh);
+          ctx.fillText("BREAK THE TEXT", canvas.width / 2, 54 * vh);
           return;
         }
 
